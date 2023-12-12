@@ -20,6 +20,23 @@ java.sourceSets.create("domain") {
     java.srcDir("src/domain/java")
 }
 
+//tasks.register<Jar>("domain") {
+//    from(sourceSets["domain"].output)
+//}
+
+java.sourceSets.create("cli") {
+    java.srcDir("src/cli/java")
+}
+
+tasks.named<Jar>("jar") {
+   from(sourceSets.get("domain").output) {
+    into("domain")
+   }
+   from(sourceSets.get("cli").output) {
+    into("cli")
+   }
+}
+
 dependencies {
     // Use JUnit Jupiter for testing.
 //    testImplementation(libs.junit.jupiter)
@@ -39,7 +56,13 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass.set("com.flaviusas.basics.App")
+    //mainClass.set("skillmatrix.cli/com.flaviusas.skillmatrix.ui.cli")
+    mainClass.set("com.flaviusas.skillmatrix.ui.cli")
+    mainModule.set("skillmatrix.cli")
+}
+
+java {
+    modularity.inferModulePath.set(true)
 }
 
 tasks.named<Test>("test") {

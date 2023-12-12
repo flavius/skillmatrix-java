@@ -1,0 +1,2 @@
+module skillmatrix.cli {
+}
