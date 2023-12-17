@@ -33,7 +33,10 @@ tasks.named<Jar>("jar") {
     into("domain")
    }
    from(sourceSets.get("cli").output) {
-    into("cli")
+    into("skillmatrix.cli")
+   }
+   manifest {
+        attributes["Main-Class"] = "Bootstrap"
    }
 }
 
@@ -56,9 +59,9 @@ java {
 
 application {
     // Define the main class for the application.
-    //mainClass.set("skillmatrix.cli/com.flaviusas.skillmatrix.ui.cli")
-    mainClass.set("com.flaviusas.skillmatrix.ui.cli")
-    mainModule.set("skillmatrix.cli")
+    mainClass.set("Bootstrap")
+    //mainModule.set("skillmatrix.cli")
+    //mainClass.set("com.flaviusas.skillmatrix.ui.cli.Main")
 }
 
 java {
