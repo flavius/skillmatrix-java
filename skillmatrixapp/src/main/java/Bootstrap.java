@@ -1,6 +1,7 @@
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Path;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
@@ -8,6 +9,10 @@ import java.util.zip.ZipEntry;
 public class Bootstrap {
     public static void main(String[] args) throws IOException, URISyntaxException {
         System.out.println("Hello bootstrap");
+        for(var arg: args) {
+        	System.out.println(arg);
+        }
+        var mainclsname = args[0];
         var moduleLayer = ModuleLayer.boot();
         var conf = moduleLayer.configuration().toString();
         for(var mod: moduleLayer.modules()) {
@@ -26,7 +31,20 @@ public class Bootstrap {
         Object o = new Bootstrap();
         var pd = o.getClass().getProtectionDomain();
         var loc = pd.getCodeSource().getLocation();
-        var clsldr = o.getClass().getClassLoader();
+        var loc_domain = new URL(loc.toString() + "/domain");
+        var urls = new URL[1];
+        urls[0] = loc_domain;
+        var loader = new ModularClassLoader("domain", urls, null);
+        try {
+        	var maincls = loader.loadClass(mainclsname);
+        	System.out.println("main class found: " + maincls.getName());
+        } catch (ClassNotFoundException ex) {
+        	System.err.println("main class not found " + mainclsname);
+        }
+        var clsldr2 = o.getClass().getClassLoader();
+        System.out.println(clsldr2.getClass().getName());
+        //System.out.println(loc_domain);
+        //var clsldr = o.getClass().getClassLoader();
         //clsldr.getParent();
         //System.out.println(clsldr);
         //var jarp = Path.of(loc.toURI());
