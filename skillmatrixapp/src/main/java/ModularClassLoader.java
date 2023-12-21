@@ -7,14 +7,16 @@ public class ModularClassLoader extends URLClassLoader {
 	public ModularClassLoader(String name, URL[] urls, ClassLoader parent) {
 		super(name, urls, parent);
 		// TODO Auto-generated constructor stub
-		System.out.println("custom class loader started");
+		System.out.println("custom class loader started " + urls[0]);
 		var man = new Manifest();
 		super.definePackage("domain", man, urls[0]);
 	}
 	
 	public Class<?> findClass(String className) throws ClassNotFoundException {
 		System.out.println("Attempting to load custom " + className);
-		throw new ClassNotFoundException();
+		return super.findClass(className);
+		//throw new ClassNotFoundException();
 	}
+
 
 }

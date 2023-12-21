@@ -29,15 +29,15 @@ java.sourceSets.create("cli") {
 }
 
 tasks.named<Jar>("jar") {
-   from(sourceSets.get("domain").output) {
-    into("domain")
-   }
-   from(sourceSets.get("cli").output) {
-    into("skillmatrix.cli")
-   }
-   manifest {
+    from(sourceSets.get("domain").output) {
+        into("domain")
+    }
+    from(sourceSets.get("cli").output) {
+        into("skillmatrix.cli")
+    }
+    manifest {
         attributes["Main-Class"] = "Bootstrap"
-   }
+    }
 }
 
 dependencies {
